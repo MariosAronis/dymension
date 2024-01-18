@@ -87,25 +87,15 @@ set_EVM_params
 set_bank_denom_metadata
 set_epochs_params
 set_incentives_params
-
-echo "Enable monitoring? (Y/n) "
-read -r answer
-if [ ! "$answer" != "${answer#[Nn]}" ] ;then
-  enable_monitoring
-fi
-
-
-echo "Initialize AMM accounts? (Y/n) "
-read -r answer
-if [ ! "$answer" != "${answer#[Nn]}" ] ;then
-  dymd keys add pools --keyring-backend test
-  dymd keys add user --keyring-backend test
+enable_monitoring
+dymd keys add pools --keyring-backend test
+dymd keys add user --keyring-backend test
 
   # Add genesis accounts and provide coins to the accounts
-  dymd add-genesis-account $(dymd keys show pools --keyring-backend test -a) 1000000000000000000000000udym,10000000000uatom,500000000000uusd
+dymd add-genesis-account $(dymd keys show pools --keyring-backend test -a) 1000000000000000000000000udym,10000000000uatom,500000000000uusd
   # Give some uatom to the local-user as well
-  dymd add-genesis-account $(dymd keys show user --keyring-backend test -a) 1000000000000000000000udym,10000000000uatom
-fi
+dymd add-genesis-account $(dymd keys show user --keyring-backend test -a) 1000000000000000000000udym,10000000000uatom
+
 
 
 dymd keys add "$KEY_NAME" --keyring-backend test
